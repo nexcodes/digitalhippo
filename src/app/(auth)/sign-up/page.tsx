@@ -1,33 +1,37 @@
 "use client";
 
+import Link from "next/link";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import { cn } from "@/lib/utils";
+import { useForm } from "react-hook-form";
+
 import { Icons } from "@/components/Icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpSchema } from "@/schemas/auth";
+import { trpc } from "@/trpc/client";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 
-import {useForm} from "react-hook-form"
-import { SignUpSchema } from "../../../schemas/auth";
-
-type TAuthCredentialValidator = z.infer<typeof SignUpSchema>
+type TAuthCredentialValidator = z.infer<typeof SignUpSchema>;
 
 export default function SignUpPage() {
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  
   } = useForm<TAuthCredentialValidator>({
-    resolver: zodResolver(SignUpSchema)
+    resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = (values: TAuthCredentialValidator) => {
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
 
-  }
+  const onSubmit = (values: TAuthCredentialValidator) => {
+    mutate(values);
+  };
 
   return (
     <>
@@ -55,6 +59,7 @@ export default function SignUpPage() {
                 <div className="grid gap-1 py-2 space-y-0.5">
                   <Label htmlFor="email">Email</Label>
                   <Input
+                    disabled={isLoading}
                     className={cn({
                       "focus-visible:ring-red-500": true,
                     })}
@@ -65,15 +70,18 @@ export default function SignUpPage() {
                 <div className="grid gap-1 py-2 space-y-0.5">
                   <Label htmlFor="password">Password</Label>
                   <Input
+                    disabled={isLoading}
                     className={cn({
                       "focus-visible:ring-red-500": true,
                     })}
+                    type="password"
                     placeholder="Password"
                   />
                 </div>
 
-                <Button type="submit">Sign up</Button>
-
+                <Button disabled={isLoading} type="submit">
+                  Sign up
+                </Button>
               </div>
             </form>
           </div>
