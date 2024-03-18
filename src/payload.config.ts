@@ -13,7 +13,7 @@ export default buildConfig({
   admin: {
     bundler: webpackBundler(),
     meta: {
-      titleSuffix: "- HeaveoneStore",
+      titleSuffix: "- DigitalHippo",
       favicon: "/favicon.ico",
       ogImage: "/thumbnail.jpg",
     },

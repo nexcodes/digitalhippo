@@ -1,8 +1,7 @@
 {
-  "name": "heavenstore",
+  "name": "digitalHippo",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon",
     "build": "next build",
@@ -10,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@payloadcms/bundler-webpack": "^1.0.6",
     "@payloadcms/db-mongodb": "^1.4.3",
     "@payloadcms/richtext-slate": "^1.4.0",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
@@ -26,8 +27,11 @@
     "payload": "^2.11.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.0",
+    "sonne": "^0.0.0",
     "tailwind-merge": "^2.0.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
