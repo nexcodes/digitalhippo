@@ -3,11 +3,15 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { slateEditor } from "@payloadcms/richtext-slate";
 import path from "path";
 import { buildConfig } from "payload/config";
-import { Users } from "./collections/user";
+import { Orders } from "./collections/Orders";
+import { ProductFiles } from "./collections/ProductFile";
+import { Media } from "./collections/Media";
+import { Products } from "./collections/Products/Products";
+import { Users } from "./collections/Users";
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "",
-  collections: [Users],
+  collections: [Users, Products, Media , ProductFiles , Orders],
   routes: {
     admin: "/sell",
   },

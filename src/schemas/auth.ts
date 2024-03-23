@@ -12,3 +12,6 @@ export const SignInSchema = z.object({
     password: z.string(),
 })
 
+export const verifyEmailSchema = z.object({
+    token: z.string()
+})

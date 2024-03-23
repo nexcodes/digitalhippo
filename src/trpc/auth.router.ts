@@ -1,7 +1,7 @@
-import { getPayloadClient } from "../get-payload";
-import { SignUpSchema } from "../schemas/auth";
-import { publicProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
+import { getPayloadClient } from "../get-payload";
+import { SignInSchema, SignUpSchema, verifyEmailSchema } from "../schemas/auth";
+import { publicProcedure, router } from "./trpc";
 
 export const authRouter = router({
   createPayloadUser: publicProcedure
@@ -32,14 +32,64 @@ export const authRouter = router({
         data: {
           email,
           password,
-          role: "user"
-        }
-      })
+          role: "user",
+        },
+      });
 
       return {
         success: true,
-        sentToEmail: email
-      }
+        sentToEmail: email,
+      };
+    }),
 
+  verifyEmail: publicProcedure
+    .input(verifyEmailSchema)
+    .query(async ({ input }) => {
+      const { token } = input;
+
+      const payload = await getPayloadClient({});
+
+      const isVerified = await payload.verifyEmail({
+        collection: "users",
+        token,
+      });
+
+      if (!isVerified)
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+        });
+
+      return {
+        success: true,
+      };
+    }),
+
+  signIn: publicProcedure
+    .input(SignInSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { email, password } = input;
+
+      const { res } = ctx;
+
+      const payload = await getPayloadClient({});
+
+      try {
+        await payload.login({
+          collection: "users",
+          data: {
+            email,
+            password,
+          },
+          res,
+        });
+
+        return {
+          success: true,
+        };
+      } catch (err) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+        });
+      }
     }),
 });

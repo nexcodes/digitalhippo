@@ -6,6 +6,7 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import dotenv from "dotenv";
 import path from "path";
 import { appRouter } from "./trpc";
+import { inferAsyncReturnType } from "@trpc/server";
 
 
 dotenv.config({
@@ -22,6 +23,8 @@ const createContext = ({
   req,
   res,
 });
+
+export type ExpressContext = inferAsyncReturnType<typeof createContext>
 
 const start = async () => {
   const payload = await getPayloadClient({

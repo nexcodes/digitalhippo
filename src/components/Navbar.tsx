@@ -1,12 +1,16 @@
+import { getServerSideUser } from "@/lib/payload-utils";
+import { cookies } from "next/headers";
 import Link from "next/link";
-import { MaxWidthWrapper } from "./MaxWidthWrapper";
+import { Cart } from "./Cart";
 import { Icons } from "./Icons";
+import { MaxWidthWrapper } from "./MaxWidthWrapper";
 import { NavItems } from "./NavItems";
 import { buttonVariants } from "./ui/button";
-import { Cart } from "./Cart";
+import UserAccountNav from "./UserAccountNav";
 
-export const Navbar = () => {
-  const user = null;
+export const Navbar = async () => {
+  const nextCookies = cookies();
+  const { user } = await getServerSideUser(nextCookies);
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
@@ -29,10 +33,7 @@ export const Navbar = () => {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {user ? (
                     <>
-                      <span
-                        className="h-6 w-px bg-gray-200"
-                        aria-hidden="true"
-                      />
+                      <UserAccountNav user={user} />
                     </>
                   ) : (
                     <>

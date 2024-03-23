@@ -1,6 +1,8 @@
 {
     "watch": [
         "server.ts",
+        "get-payload.ts",
+        "payload.config.ts",
         "src/collections/**/*.ts",
         "src/trpc/index.ts"
     ],
